@@ -21,6 +21,14 @@ namespace ConsoleApplication1.Composition
             plane.Mover = new PlaneMover();
             plane.Move();
             plane.Shoot();
+
+            var enTank = new IngeneeringTank();
+            enTank.Mover = new TankMover();
+            enTank.Move();
+
+            var trPlane = new TransportPlane();
+            trPlane.Mover = new PlaneMover();
+            trPlane.Move();
         }
     }
 
@@ -61,11 +69,21 @@ namespace ConsoleApplication1.Composition
 
     public interface IGameObject
     {
+        //void WriteName();
+        
+    }
+
+    public interface IMovable
+    {
         void Move();
+    }
+
+    public interface IShootable
+    {
         void Shoot();
     }
 
-    public class BattleTank : IGameObject
+    public class BattleTank : IGameObject, IMovable, IShootable
     {
         public IShooter Shooter { get; set; }
         public IMover Mover { get; set; }
@@ -81,7 +99,7 @@ namespace ConsoleApplication1.Composition
         }
     }
 
-    public class BattlePlane : IGameObject
+    public class BattlePlane : IGameObject, IMovable, IShootable
     {
         public IShooter Shooter { get; set; }
         public IMover Mover { get; set; }
@@ -94,6 +112,24 @@ namespace ConsoleApplication1.Composition
         public void Shoot()
         {
             this.Shooter.Shoot();
+        }
+    }
+
+    public class IngeneeringTank :IMovable
+    {
+        public IMover Mover { get; set; }
+        public void Move()
+        {
+            this.Mover.Move();
+        }
+    }
+
+    public class TransportPlane : IMovable
+    {
+        public IMover Mover { get; set; }
+        public void Move()
+        {
+            this.Mover.Move();
         }
     }
 
