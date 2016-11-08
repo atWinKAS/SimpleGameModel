@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,10 @@ namespace ConsoleApplication1.Composition
             var trPlane = new TransportPlane();
             trPlane.Mover = new PlaneMover();
             trPlane.Move();
+
+            var tower = new Tower();
+            tower.Shooter = new TowerShooter();
+            tower.Shoot();
         }
     }
 
@@ -47,6 +52,15 @@ namespace ConsoleApplication1.Composition
         public void Shoot()
         {
             Console.WriteLine("Base Shoot");
+
+        }
+    }
+
+    public class TowerShooter : IShooter
+    {
+        public void Shoot()
+        {
+            Console.WriteLine("Tower Shoot");
 
         }
     }
@@ -115,22 +129,33 @@ namespace ConsoleApplication1.Composition
         }
     }
 
-    public class IngeneeringTank :IMovable
+    public class IngeneeringTank : IGameObject, IMovable
     {
         public IMover Mover { get; set; }
+
         public void Move()
         {
             this.Mover.Move();
         }
     }
 
-    public class TransportPlane : IMovable
+    public class TransportPlane : IGameObject, IMovable
     {
         public IMover Mover { get; set; }
+
         public void Move()
         {
             this.Mover.Move();
         }
     }
 
+    public class Tower : IGameObject, IShootable
+    {
+        public IShooter Shooter { get; set; }
+
+        public void Shoot()
+        {
+            this.Shooter.Shoot();
+        }
+    }
 }
